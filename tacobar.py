@@ -83,8 +83,8 @@ def taco_bar_calculator(meat_type, selected_vegetables, selected_sauces):
     }
 
 # รูปแบบแอป Streamlit
-st.title("Tacos For Amigos")
-
+st.title(":blue[Tacos For Amigos]")
+st.toast("Hi Amigo",icon="😃")
 # เลือกประเภทเนื้อ
 meat_type = st.selectbox("เลือกประเภทเนื้อของคุณ:", options=["ground beef", "shrimp", "hamburger", "chicken", "pork"])
 
