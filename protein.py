@@ -1,4 +1,4 @@
-import  steamlit as st
+import  streamlit as st
 
 
 genre = st.radio(
