@@ -33,14 +33,19 @@ def Fiber():
         Age1=st.number_input ("Age",min_value=13,max_value=120,value=None)
         if Height1 and weight1 and Age1:
             BMRmale = 665 + (9.6 * weight1) + (1.8 * Height1) - (4.7 * Age1)   
-            Activitylevel = st.radio("Activity level", ('Little/no exercise', 'Exercise often'))
-            st.write("You selected:", Activitylevel)
-            if Activitylevel == 'Little/no exercise':
+            Fiber_needs = None
+            Activitylevel1 = st.radio("Activity level", 
+            ('Select your activity level', 'Little/no exercise', 'Exercise often'))
+            if Activitylevel1 == 'Little/no exercise':
              Fiber_needs = (BMRmale*1.2)/1000*14  # Example value for sedentary males
-             st.write('You need approximately',  Fiber_needs, 'gram of  Fiber today.')
-            else:
+             
+            elif Activitylevel1 == 'Exercise often':
              Fiber_needs = (BMRmale*1.7)/1000*14  # Example value for active males
-             st.write('You need approximately',  Fiber_needs, 'gram of  Fiber today.')
+             
+            if Fiber_needs is not None:
+               if  Activitylevel1 != 'Little/no exercise''Exercise often':
+                 st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
+               
     if SEX1 == 'Child':
         Height1 = st.number_input ("Height (in CM )",min_value=1,max_value=150,value=None)
         weight1 = st.number_input("Weight (in kg)", min_value=1,max_value=100,value=None)
