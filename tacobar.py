@@ -1,18 +1,19 @@
 import streamlit as st
 
-def taco_bar_calculator(meat_type, selected_vegetables, selected_sauces):
+def taco_bar_calculator(meat_type, selected_vegetables, selected_sauces, selected_ingredients):
     # ส่วนผสมที่ต้องการต่อทาโก้ (กรัม) และราคาต่อหน่วย
     meat_per_taco = {
-        "ground beef": (92.0, 3.5),  # เนื้อบด (กรัม, ราคาเป็นปอนด์)
-        "shrimp": (92.0, 6.0),       # กุ้ง
+        "ground beef": (92.0, 3.5),  # เนื้อบด (กรัม, ราคาเป็นปอนด์)\
+        "shrimp": (60.0, 6.0),       # กุ้ง 100 = กุ้ง5ตัว
         "hamburger": (71.0, 4.0),    # เนื้อแฮมเบอร์เกอร์
         "chicken": (78.0, 3.0),      # ไก่
-        "pork": (99.0, 5.0)          # หมู (Carnitas)
+        "pork": (99.0, 5.0),         # หมู (Carnitas)
+        "vegan meat" : (110.0 , 5.585),  # Plant-based meat for vegan
     }
-
+    
     # ตรวจสอบประเภทเนื้อ
-    if meat_type not in meat_per_taco:
-        return "ประเภทเนื้อไม่ถูกต้อง กรุณาเลือกจาก: ground beef, shrimp, hamburger, chicken, pork"
+    if meat_type not in meat_per_taco: 
+        return "ประเภทเนื้อไม่ถูกต้อง กรุณาเลือกจาก: ground beef, shrimp, hamburger, chicken, pork or vegan"
 
     # คำนวณน้ำหนักรวมและราคา
     meat_weight, meat_price_per_lb = meat_per_taco[meat_type]
@@ -48,8 +49,9 @@ def taco_bar_calculator(meat_type, selected_vegetables, selected_sauces):
 
     # คำนวณราคาสำหรับส่วนผสมอื่น ๆ
     total_price = meat_price_per_lb * (meat_weight / 453.592)  # แปลงกรัมเป็นปอนด์สำหรับเนื้อ
-    ingredient_prices = {}
 
+    ingredient_prices = {}
+    
     for ingredient, (weight, price_per_lb) in ingredients.items():
         ingredient_price = price_per_lb * (weight / 453.592)  # แปลงกรัมเป็นปอนด์สำหรับส่วนผสมอื่น ๆ
         ingredient_prices[ingredient] = ingredient_price
@@ -77,9 +79,11 @@ def taco_bar_calculator(meat_type, selected_vegetables, selected_sauces):
             total_price += sauce_price
 
     return {
-        'total_weight': sum([meat_weight] + [vegetable_prices[v][0] for v in selected_vegetables]) + sum([sauce_prices[s][0] for s in selected_sauces]),
+        'total_weight': sum([meat_weight] + [vegetable_prices[v][0] for v in selected_vegetables]) + sum([sauce_prices[s][0] for s in selected_sauces])+ sum([ingredients[i][0] for i in selected_ingredients]),
         'total_price': total_price,
-        'price_per_taco': total_price   # เนื่องจากเราคำนวณสำหรับหนึ่งทาโก้
+        'price_per_taco': total_price,   # เนื่องจากเราคำนวณสำหรับหนึ่งทาโก้
+        'total_protein_weight' : sum([meat_weight] + [ingredients[i][0] for i in selected_ingredients]),
+        'total_fiber_weight' : sum([vegetable_prices[v][0] for v in selected_vegetables])
     }
 
 # รูปแบบแอป Streamlit
@@ -102,9 +106,11 @@ selected_sauces = st.multiselect("เลือกซอสของคุณ:", 
 
 # ปุ่มคำนวณ
 if st.button("คำนวณ"):
-    results = taco_bar_calculator(meat_type, selected_vegetables, selected_sauces)
+    results = taco_bar_calculator(meat_type, selected_vegetables, selected_sauces,selected_ingredients)
 
     # แสดงผลลัพธ์
     st.subheader("ผลลัพธ์")
     st.write(f"น้ำหนักรวมของทาโก้หนึ่งชิ้น: {results['total_weight']:.1f} g")
     st.write(f"ราคารวมสำหรับทาโก้หนึ่งชิ้น: ${results['total_price']:.2f}")
+    st.write(f"น้ำหนักรวมของโปรตีนทั้งหมด: {results['total_protein_weight']:.2f} g")
+    st.write(f"น้ำหนักรวมของไฟเบอร์ทั้งหมด: {results['total_fiber_weight']} g")
