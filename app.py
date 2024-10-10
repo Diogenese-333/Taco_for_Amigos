@@ -1,10 +1,4 @@
 import streamlit as st
 st.title("Tacos For Amigos")
-st.write("Fillers : ")
-st.write("1.Pork \t 2.Meat \t 3.Chicken \t")
-st.write("Sauce : ")
-st.write("A.Salad B.Ketchup C.Mayo")
-st.write("Vegetables : ")
-st.write("D.Onion \n F. Beans \n G.Sliced Tomatoes \n H. Cucumber")
-customer = st.text_input("Select your fillers >> ")
-button1 = st.button("OK") 
+st.subheader("Anything for my friends.")
+st.table()
