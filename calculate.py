@@ -74,9 +74,9 @@ def main():
     if SEX == 'Child':
         Height1 = st.number_input ("Height (in CM )",min_value=1,max_value=150,value=None)
         weight1 = st.number_input("Weight (in kg)", min_value=1,max_value=100,value=None)
-        age = st.number_input("Age for child (6-12)", min_value=6, max_value=None)
+        Age1 = st.number_input("Age for child (6-12)", min_value=6, max_value=None)
         if Height1 and weight1 and Age1:
-            Fiber_needs=age+5
+            Fiber_needs=Age1+5
             st.write('You need approximately',  Fiber_needs, 'gram of  Fiber today.')
 
 if __name__ == '__main__':
