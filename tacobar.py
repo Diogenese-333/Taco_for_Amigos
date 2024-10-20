@@ -11,9 +11,9 @@ def taco_bar_calculator(meat_type, selected_vegetables, selected_sauces, selecte
         "vegan meat" : (110.0 , 5.585),  # Plant-based meat for vegan
     }
     
-    # ตรวจสอบประเภทเนื้อ
-    if meat_type not in meat_per_taco: 
-        return "ประเภทเนื้อไม่ถูกต้อง กรุณาเลือกจาก: ground beef, shrimp, hamburger, chicken, pork or vegan"
+    # # ตรวจสอบประเภทเนื้อ
+    # if meat_type not in meat_per_taco: 
+    #     return "ประเภทเนื้อไม่ถูกต้อง กรุณาเลือกจาก: ground beef, shrimp, hamburger, chicken, pork or vegan"
 
     # คำนวณน้ำหนักรวมและราคา
     meat_weight, meat_price_per_lb = meat_per_taco[meat_type]
@@ -86,31 +86,31 @@ def taco_bar_calculator(meat_type, selected_vegetables, selected_sauces, selecte
         'total_fiber_weight' : sum([vegetable_prices[v][0] for v in selected_vegetables])
     }
 
-# รูปแบบแอป Streamlit
-st.title(":blue[Tacos For Amigos]")
-st.toast("Hi Amigo",icon="😃")
-# เลือกประเภทเนื้อ
-meat_type = st.selectbox("เลือกประเภทเนื้อของคุณ:", options=["ground beef", "shrimp", "hamburger", "chicken", "pork"])
+# # รูปแบบแอป Streamlit
+# st.title(":blue[Tacos For Amigos]")
+# st.toast("Hi Amigo",icon="😃")
+# # เลือกประเภทเนื้อ
+# meat_type = st.selectbox("เลือกประเภทเนื้อของคุณ:", options=["ground beef", "shrimp", "hamburger", "chicken", "pork"])
 
-# เลือกtopping
-ingredients_option = ["cheddar cheese","monterey cheese","guacamole"]
-selected_ingredients = st.multiselect("เลือก TOPPING ",options=ingredients_option) 
+# # เลือกtopping
+# ingredients_option = ["cheddar cheese","monterey cheese","guacamole"]
+# selected_ingredients = st.multiselect("เลือก TOPPING ",options=ingredients_option) 
        
-# เลือกผัก
-vegetable_options = ["lettuce", "onions", "beans", "refried beans", "tomatoes", "olives", "bell pepper"]
-selected_vegetables = st.multiselect("เลือกผักของคุณ:", options=vegetable_options)
+# # เลือกผัก
+# vegetable_options = ["lettuce", "onions", "beans", "refried beans", "tomatoes", "olives", "bell pepper"]
+# selected_vegetables = st.multiselect("เลือกผักของคุณ:", options=vegetable_options)
 
-# เลือกซอส
-sauce_options = ["taco sauce", "hot sauce", "salsa", "guacamole sauce","sour cream"]
-selected_sauces = st.multiselect("เลือกซอสของคุณ:", options=sauce_options)
+# # เลือกซอส
+# sauce_options = ["taco sauce", "hot sauce", "salsa", "guacamole sauce","sour cream"]
+# selected_sauces = st.multiselect("เลือกซอสของคุณ:", options=sauce_options)
 
-# ปุ่มคำนวณ
-if st.button("คำนวณ"):
-    results = taco_bar_calculator(meat_type, selected_vegetables, selected_sauces,selected_ingredients)
+# # ปุ่มคำนวณ
+# if st.button("คำนวณ"):
+#     results = taco_bar_calculator(meat_type, selected_vegetables, selected_sauces,selected_ingredients)
 
-    # แสดงผลลัพธ์
-    st.subheader("ผลลัพธ์")
-    st.write(f"น้ำหนักรวมของทาโก้หนึ่งชิ้น: {results['total_weight']:.1f} g")
-    st.write(f"ราคารวมสำหรับทาโก้หนึ่งชิ้น: ${results['total_price']:.2f}")
-    st.write(f"น้ำหนักรวมของโปรตีนทั้งหมด: {results['total_protein_weight']:.2f} g")
-    st.write(f"น้ำหนักรวมของไฟเบอร์ทั้งหมด: {results['total_fiber_weight']} g")
+#     # แสดงผลลัพธ์
+#     st.subheader("ผลลัพธ์")
+#     st.write(f"น้ำหนักรวมของทาโก้หนึ่งชิ้น: {results['total_weight']:.1f} g")
+#     st.write(f"ราคารวมสำหรับทาโก้หนึ่งชิ้น: ${results['total_price']:.2f}")
+#     st.write(f"น้ำหนักรวมของโปรตีนทั้งหมด: {results['total_protein_weight']:.2f} g")
+#     st.write(f"น้ำหนักรวมของไฟเบอร์ทั้งหมด: {results['total_fiber_weight']} g")
