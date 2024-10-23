@@ -16,19 +16,16 @@ def load_lottiefile(filepath: str):
         return json.load(f)
 
 lottie_file_path = "C:\GitHub\Taco_for_Amigos\Animation1.json"
+lottie_loading_path = "C:\GitHub\Taco_for_Amigos\Loading Animation.json"
 lottie_json = load_lottiefile(lottie_file_path)
+lottie_json1 = load_lottiefile(lottie_loading_path)
 st_lottie(lottie_json, key="lottie")
 # lottie_url_hello = "https://assets5.lottiefiles.com/packages/lf20_V9t630.json"
 # lottie_url_download = "https://assets4.lottiefiles.com/private_files/lf30_t26law.json"
 # lottie_download = load_lottieurl(lottie_url_download)
 
 
-# st_lottie(lottie_hello, key="hello")
 
-# if st.button("Download"):
-#     with st_lottie_spinner(lottie_download, key="download"):
-#         time.sleep(5)
-#     st.balloons()
 def main():
         # Initialize session state variables
     if 'total_protein_weight' not in st.session_state:
@@ -38,6 +35,14 @@ def main():
     global total_protein_weight,total_fiber_weight
     # รูปแบบแอป Streamlit
     st.title(":rainbow[Tacos For Amigos]")
+    hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+    st.markdown(hide_st_style, unsafe_allow_html=True)
     st.toast("Hola Amigo",icon="😃")
     # Select meat type
     meat_type = st.selectbox("Select Meat Type", list(meat_per_taco.keys()))
@@ -53,12 +58,15 @@ def main():
 
     # Calculate and display results
     if st.button("Calculate"):
+        with st_lottie_spinner(lottie_json1, key="download"):
+            time.sleep(5)
+        st.balloons()
         meat_price = calculate_meat_price(meat_type)
         ingredient_price = calculate_ingredient_price(selected_ingredients)
         vegetable_price = calculate_vegetable_price(selected_vegetables)
         sauce_price = calculate_sauce_price(selected_sauces)
         total_price = meat_price + ingredient_price + vegetable_price + sauce_price
-
+        
         
         total_weight = calculate_total_weight(meat_type, selected_ingredients, selected_vegetables, selected_sauces)
         # Store calculated values in session state
@@ -70,6 +78,8 @@ def main():
         st.write(f"Total fiber for this tacos is {st.session_state.total_fiber_weight:.2f} g.")
         
             # #คำนวณ สารอาหาร
+   
+
     SEX = st.radio("What's your SEX", ('Female', 'Male','Child'))
     st.write("You selected:", SEX)
     # Initialize Fiber_needs to None
