@@ -1,7 +1,7 @@
 import streamlit as st
 from calculate import *
 from tacobar import *
- 
+from streamlit_lottie import st_lottie 
 
 def main():
         # Initialize session state variables
