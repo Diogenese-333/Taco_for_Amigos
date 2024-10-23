@@ -1,8 +1,11 @@
+import json
 import streamlit as st
+import requests
 from calculate import *
 from tacobar import *
 from streamlit_lottie import st_lottie 
-
+with st.echo():
+    st_lottie("https://assets5.lottiefiles.com/packages/lf20_V9t630.json")
 def main():
         # Initialize session state variables
     if 'total_protein_weight' not in st.session_state:
@@ -43,68 +46,68 @@ def main():
         st.write(f"Total protein for this tacos is {st.session_state.total_protein_weight:.2f} g.")
         st.write(f"Total fiber for this tacos is {st.session_state.total_fiber_weight:.2f} g.")
         
-         # #คำนวณ สารอาหาร
-    SEX = st.radio("What's your SEX", ('Female', 'Male','Child'))
-    st.write("You selected:", SEX)
-    # Initialize Fiber_needs to None
-    Fiber_needs = None
-    protein_needs = None
-    if SEX == 'Female':
-        weight1 = st.number_input("Weight (in kg)", min_value=1,max_value=400,value=None)
-        Height1 = st.number_input ("Height (in CM )",min_value=50,max_value=220,value=None)
-        Age1=st.number_input ("Age",min_value=13,max_value=120,value=None)
-        if weight1 is not None and Height1 and Age1:
-            BMRfemale = 66.0 + (13.7*weight1) + (5.0 * Height1) - (6.8 * Age1) 
-            Fiber_needs = None
-            Activitylevel = st.radio("Activity level",('Select your activity level', 'Little/no exercise', 'Exercise often'))
-            if Activitylevel == 'Little/no exercise':
-                protein_needs = weight1 * 0.8  # Example value for sedentary females
-                Fiber_needs =(BMRfemale*1.2)/1000*14  # Example value for sedentary females
+            # #คำนวณ สารอาหาร
+        SEX = st.radio("What's your SEX", ('Female', 'Male','Child'))
+        st.write("You selected:", SEX)
+        # Initialize Fiber_needs to None
+        Fiber_needs = None
+        protein_needs = None
+        if SEX == 'Female':
+            weight1 = st.number_input("Weight (in kg)", min_value=1,max_value=400,value=None)
+            Height1 = st.number_input ("Height (in CM )",min_value=50,max_value=220,value=None)
+            Age1=st.number_input ("Age",min_value=13,max_value=120,value=None)
+            if weight1 is not None and Height1 and Age1:
+                BMRfemale = 66.0 + (13.7*weight1) + (5.0 * Height1) - (6.8 * Age1) 
+                Fiber_needs = None
+                Activitylevel = st.radio("Activity level",('Select your activity level', 'Little/no exercise', 'Exercise often'))
+                if Activitylevel == 'Little/no exercise':
+                    protein_needs = weight1 * 0.8  # Example value for sedentary females
+                    Fiber_needs =(BMRfemale*1.2)/1000*14  # Example value for sedentary females
+                    
+                elif Activitylevel =='Exercise often':
+                    protein_needs = weight1 * 1.0  # Example value for active females
+                    Fiber_needs = (BMRfemale*1.7)/1000*14 # Example value for active females
+                if protein_needs  is not None:
+                    if  Activitylevel != 'Little/no exercise''Exercise often':
+                        st.write('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
+                if Fiber_needs is not None:
+                    if  Activitylevel != 'Little/no exercise''Exercise often':
+                        st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
+        if SEX == 'Male': 
+            Height1 = st.number_input ("Height (in CM )",min_value=50,max_value=280,value=None)
+            weight1 = st.number_input("Weight (in kg)",min_value=1,max_value=400,value=None)
+            Age1=st.number_input ("Age",min_value=13,max_value=120,value=None)
+            if weight1 is not None and Height1 and Age1:
+                BMRmale = 665 + (9.6 * weight1) + (1.8 * Height1) - (4.7 * Age1)   
+                Fiber_needs = None
+                Activitylevel = st.radio("Activity level",('Select your activity level', 'Little/no exercise', 'Exercise often'))
+                if Activitylevel == 'Little/no exercise':
+                    protein_needs = weight1 * 0.9  # Example value for sedentary males
+                    Fiber_needs = (BMRmale*1.2)/1000*14  # Example value for sedentary males
+                    
+                elif Activitylevel =='Exercise often':
+                    protein_needs = weight1 * 1.2 # Example value for active males
+                    Fiber_needs = (BMRmale*1.7)/1000*14  # Example value for active males
+                if  protein_needs  is not None:
+                    if  Activitylevel != 'Little/no exercise''Exercise often':
+                        st.write('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
+                if Fiber_needs is not None:
+                    if  Activitylevel != 'Little/no exercise''Exercise often':
+                        st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
+                                
+        if SEX == 'Child': #for a child
+            Height1 = st.number_input ("Height (in CM )",min_value=1,max_value=150,value=None)
+            weight1 = st.number_input("Weight (in kg)", min_value=1,max_value=100,value=None)
+            Age1 = st.number_input("Age for child (6-12)", min_value=6, max_value=None)
+            if Height1 and weight1 and Age1:
+                Fiber_needs=Age1+5
+                st.write('You need approximately',Fiber_needs, 'gram of  Fiber today.')
                 
-            elif Activitylevel =='Exercise often':
-                protein_needs = weight1 * 1.0  # Example value for active females
-                Fiber_needs = (BMRfemale*1.7)/1000*14 # Example value for active females
-            if protein_needs  is not None:
-                if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.write('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
-            if Fiber_needs is not None:
-                if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
-    if SEX == 'Male': 
-        Height1 = st.number_input ("Height (in CM )",min_value=50,max_value=280,value=None)
-        weight1 = st.number_input("Weight (in kg)",min_value=1,max_value=400,value=None)
-        Age1=st.number_input ("Age",min_value=13,max_value=120,value=None)
-        if weight1 is not None and Height1 and Age1:
-            BMRmale = 665 + (9.6 * weight1) + (1.8 * Height1) - (4.7 * Age1)   
-            Fiber_needs = None
-            Activitylevel = st.radio("Activity level",('Select your activity level', 'Little/no exercise', 'Exercise often'))
-            if Activitylevel == 'Little/no exercise':
-                protein_needs = weight1 * 0.9  # Example value for sedentary males
-                Fiber_needs = (BMRmale*1.2)/1000*14  # Example value for sedentary males
-                
-            elif Activitylevel =='Exercise often':
-                protein_needs = weight1 * 1.2 # Example value for active males
-                Fiber_needs = (BMRmale*1.7)/1000*14  # Example value for active males
-            if  protein_needs  is not None:
-                if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.write('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
-            if Fiber_needs is not None:
-                if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
-                            
-    if SEX == 'Child': #for a child
-        Height1 = st.number_input ("Height (in CM )",min_value=1,max_value=150,value=None)
-        weight1 = st.number_input("Weight (in kg)", min_value=1,max_value=100,value=None)
-        Age1 = st.number_input("Age for child (6-12)", min_value=6, max_value=None)
-        if Height1 and weight1 and Age1:
-            Fiber_needs=Age1+5
-            st.write('You need approximately',Fiber_needs, 'gram of  Fiber today.')
-            
-        # Calculate sufficiency based on the results from the nutritional needs calculation
-    if protein_needs is not None:
-        Protein_Sufficiency(st.session_state.total_protein_weight, protein_needs)
-    if Fiber_needs is not None:
-        Fiber_Sufficiency(st.session_state.total_fiber_weight, Fiber_needs)
+            # Calculate sufficiency based on the results from the nutritional needs calculation
+        if protein_needs is not None:
+            Protein_Sufficiency(st.session_state.total_protein_weight, protein_needs)
+        if Fiber_needs is not None:
+            Fiber_Sufficiency(st.session_state.total_fiber_weight, Fiber_needs)
     
 
 if __name__ == '__main__':
