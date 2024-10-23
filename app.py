@@ -102,10 +102,10 @@ def main():
                 Fiber_needs = (BMRfemale*1.7)/1000*14 # Example value for active females
             if protein_needs  is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.markdown('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
+                    st.text_area('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
             if Fiber_needs is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.markdown('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
+                   st.text_area('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
     if SEX == 'Male': 
         Height1 = st.number_input ("Height (in CM )",min_value=50,max_value=280,value=None)
         weight1 = st.number_input("Weight (in kg)",min_value=1,max_value=400,value=None)
@@ -123,18 +123,18 @@ def main():
                 Fiber_needs = (BMRmale*1.7)/1000*14  # Example value for active males
             if  protein_needs  is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.markdown('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
+                   st.text_area('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
             if Fiber_needs is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
+                    st.text_area('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
                                 
     if SEX == 'Child': #for a child
         Height1 = st.number_input ("Height (in CM )",min_value=1,max_value=150,value=None)
         weight1 = st.number_input("Weight (in kg)", min_value=1,max_value=100,value=None)
-        Age1 = st.number_input("Age for child (6-12)", min_value=6, max_value=None)
+        Age1 = st.number_input("Age for child (6-12)", min_value=6, max_value=12)
         if Height1 and weight1 and Age1:
             Fiber_needs=Age1+5
-            st.write('You need approximately',Fiber_needs, 'gram of  Fiber today.')
+            st.text_area('You need approximately',Fiber_needs, 'gram of  Fiber today.')
                 
             # Calculate sufficiency based on the results from the nutritional needs calculation
     if protein_needs is not None:
@@ -145,4 +145,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
+  
