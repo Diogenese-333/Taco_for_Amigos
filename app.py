@@ -14,7 +14,7 @@ def main():
         st.session_state.total_fiber_weight = 0
     global total_protein_weight,total_fiber_weight
     # รูปแบบแอป Streamlit
-    st.title(":brown[Tacos For Amigos]")
+    st.title(":blue[Tacos For Amigos]")
     st.toast("Hola Amigo",icon="😃")
     # Select meat type
     meat_type = st.selectbox("Select Meat Type", list(meat_per_taco.keys()))
