@@ -102,10 +102,10 @@ def main():
                 Fiber_needs = (BMRfemale*1.7)/1000*14 # Example value for active females
             if protein_needs  is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.write('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
+                    st.markdown('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
             if Fiber_needs is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
+                    st.markdown('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
     if SEX == 'Male': 
         Height1 = st.number_input ("Height (in CM )",min_value=50,max_value=280,value=None)
         weight1 = st.number_input("Weight (in kg)",min_value=1,max_value=400,value=None)
