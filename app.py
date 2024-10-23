@@ -15,23 +15,30 @@ def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
 
-lottie_file_path = "\Taco_for_Amigos\Animation1.json"
-lottie_loading_path = "\Taco_for_Amigos\Loading Animation.json"
+lottie_file_path = "Animation1.json"
+lottie_loading_path = "Loading Animation.json"
 lottie_json = load_lottiefile(lottie_file_path)
 lottie_json1 = load_lottiefile(lottie_loading_path)
 st_lottie(lottie_json, key="lottie")
-# lottie_url_hello = "https://assets5.lottiefiles.com/packages/lf20_V9t630.json"
-# lottie_url_download = "https://assets4.lottiefiles.com/private_files/lf30_t26law.json"
-# lottie_download = load_lottieurl(lottie_url_download)
-
-
-
 def main():
-        # Initialize session state variables
-    if 'total_protein_weight' not in st.session_state:
+    # Initialize Session State keys if they do not exist
+    if "meat_price" not in st.session_state:
+        st.session_state.meat_price = 0
+    if "ingredient_price" not in st.session_state:
+        st.session_state.ingredient_price = 0
+    if "vegetable_price" not in st.session_state:
+        st.session_state.vegetable_price = 0
+    if "sauce_price" not in st.session_state:
+        st.session_state.sauce_price = 0
+    if "total_price" not in st.session_state:
+        st.session_state.total_price = 0
+    if "total_weight" not in st.session_state:
+        st.session_state.total_weight = 0
+    if "total_protein_weight" not in st.session_state:
         st.session_state.total_protein_weight = 0
-    if 'total_fiber_weight' not in st.session_state:
+    if "total_fiber_weight" not in st.session_state:
         st.session_state.total_fiber_weight = 0
+    
     global total_protein_weight,total_fiber_weight
     # รูปแบบแอป Streamlit
     st.title(":rainbow[Tacos For Amigos]")
@@ -58,28 +65,29 @@ def main():
 
     # Calculate and display results
     if st.button("Calculate"):
-        with st_lottie_spinner(lottie_json1, key="download"):
-            time.sleep(5)
-        st.balloons()
-        meat_price = calculate_meat_price(meat_type)
-        ingredient_price = calculate_ingredient_price(selected_ingredients)
-        vegetable_price = calculate_vegetable_price(selected_vegetables)
-        sauce_price = calculate_sauce_price(selected_sauces)
-        total_price = meat_price + ingredient_price + vegetable_price + sauce_price
-        
-        
-        total_weight = calculate_total_weight(meat_type, selected_ingredients, selected_vegetables, selected_sauces)
+        st.session_state.meat_price = calculate_meat_price(meat_type)
+        st.session_state.ingredient_price = calculate_ingredient_price(selected_ingredients)
+        st.session_state.vegetable_price = calculate_vegetable_price(selected_vegetables)
+        st.session_state.sauce_price = calculate_sauce_price(selected_sauces)
+        st.session_state.total_price = (st.session_state.meat_price + 
+                                        st.session_state.ingredient_price + 
+                                        st.session_state.vegetable_price + 
+                                        st.session_state.sauce_price)
+
+        st.session_state.total_weight = calculate_total_weight(meat_type, selected_ingredients, selected_vegetables, selected_sauces)
         # Store calculated values in session state
         st.session_state.total_protein_weight = calculate_total_protein_weight(meat_type, selected_ingredients)
         st.session_state.total_fiber_weight = calculate_total_fiber_weight(selected_vegetables)
-        st.write(f"Total price for your tacos is {total_price:.2f} THB.")
-        st.write(f"Total weight for your tacos is {total_weight:.2f} g.")
+        # Display results
+        st.write(f"Total price for your tacos is {st.session_state.total_price:.2f} THB.")
+        st.write(f"Total weight for your tacos is {st.session_state.total_weight:.2f} g.")
         st.write(f"Total protein for this tacos is {st.session_state.total_protein_weight:.2f} g.")
         st.write(f"Total fiber for this tacos is {st.session_state.total_fiber_weight:.2f} g.")
-        
-            # #คำนวณ สารอาหาร
-   
-
+        with st_lottie_spinner(lottie_json1, key="download"):
+            time.sleep(5)
+        st.balloons()
+        # Set the flag to show the radio button    
+    #คำนวณ สารอาหาร   
     SEX = st.radio("What's your SEX", ('Female', 'Male','Child'))
     st.write("You selected:", SEX)
     # Initialize Fiber_needs to None
@@ -102,10 +110,10 @@ def main():
                 Fiber_needs = (BMRfemale*1.7)/1000*14 # Example value for active females
             if protein_needs  is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                    st.text_area('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
+                    st.write('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
             if Fiber_needs is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                   st.text_area('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
+                    st.write('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
     if SEX == 'Male': 
         Height1 = st.number_input ("Height (in CM )",min_value=50,max_value=280,value=None)
         weight1 = st.number_input("Weight (in kg)",min_value=1,max_value=400,value=None)
@@ -123,7 +131,7 @@ def main():
                 Fiber_needs = (BMRmale*1.7)/1000*14  # Example value for active males
             if  protein_needs  is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
-                   st.text_area('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
+                    st.write('You need approximately', round(protein_needs, 2), 'grams of protein per day.')
             if Fiber_needs is not None:
                 if  Activitylevel != 'Little/no exercise''Exercise often':
                     st.text_area('You need approximately', round(Fiber_needs, 2), 'grams of fiber per day.')
@@ -134,7 +142,7 @@ def main():
         Age1 = st.number_input("Age for child (6-12)", min_value=6, max_value=12)
         if Height1 and weight1 and Age1:
             Fiber_needs=Age1+5
-            st.text_area('You need approximately',Fiber_needs, 'gram of  Fiber today.')
+            st.write('You need approximately',Fiber_needs, 'gram of  Fiber today.')
                 
             # Calculate sufficiency based on the results from the nutritional needs calculation
     if protein_needs is not None:
