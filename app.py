@@ -15,8 +15,8 @@ def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
 
-lottie_file_path = "C:\GitHub\Taco_for_Amigos\Animation1.json"
-lottie_loading_path = "C:\GitHub\Taco_for_Amigos\Loading Animation.json"
+lottie_file_path = "\Taco_for_Amigos\Animation1.json"
+lottie_loading_path = "\Taco_for_Amigos\Loading Animation.json"
 lottie_json = load_lottiefile(lottie_file_path)
 lottie_json1 = load_lottiefile(lottie_loading_path)
 st_lottie(lottie_json, key="lottie")
